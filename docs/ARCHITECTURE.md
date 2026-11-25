@@ -1,9 +1,15 @@
-# Architecture — v0.1
+# Architecture — v0.1.2
 
-Serial JK-BMS → bounded status request → frame/checksum validation → reduced parser → D-Bus monitor.
+## Data path
+JK-BMS (BLE or UART) → transport selector → protocol reader/parser → read-only telemetry normalization → D-Bus monitor.
 
-Telemetry scope: voltage/current/power, SOC, capacity, cells/count/min/max/spread, temperatures, cycles/version and communication health.
+## BLE dependencies
+Bleak 0.21.1 and dbus-fast 2.20.0 are pinned in `requirements.txt` and installed app-locally under `/data/JK-BMS-Monitor/vendor`. The runtime sets PYTHONPATH to this vendor folder and the monitor directory. System Python package installation is not intended.
 
-Control exclusion: no BMS write/configuration functions and no control-limit paths or flags. Specifically omit /Info/MaxChargeVoltage (systemcalc BatteryService marker), /Info/MaxChargeCurrent, /Info/MaxDischargeCurrent and /Capabilities/ChargeVoltageControl.
+## Telemetry
+Voltage/current/power, SOC, capacity, cells/count/min/max/spread, temperatures, cycles/version and communication health.
 
-No on-device tests have been run. D-Bus behavior and charger/MPPT independence remain unproven.
+## Control exclusion
+No BMS write/configuration functions and no control-limit paths or flags. Specifically omit /Info/MaxChargeVoltage (systemcalc BatteryService marker), /Info/MaxChargeCurrent, /Info/MaxDischargeCurrent and /Capabilities/ChargeVoltageControl.
+
+Installation and dependency resolution, D-Bus behavior and charger/MPPT independence are not yet tested on-device.
