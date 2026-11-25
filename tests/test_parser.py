@@ -1,4 +1,5 @@
-import unittest
+import os,sys,unittest
+sys.path.insert(0,os.path.join(os.path.dirname(__file__),"..","monitor"))
 from jk_parser import validate_frame,parse_payload
 class ParserTests(unittest.TestCase):
     def test_empty_frame_rejected(self):
