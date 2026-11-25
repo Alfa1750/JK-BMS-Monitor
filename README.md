@@ -1,29 +1,17 @@
 # JK-BMS-Monitor
 
-A strictly read-only JK-BMS battery monitor service for Venus OS.
+Read-only JK-BMS telemetry monitor for Venus OS.
 
-## Goal
+## v0.1.0 — test candidate
+Initial serial parser/reader, preliminary D-Bus service and install scripts.
 
-Expose JK-BMS telemetry to Venus OS over D-Bus for monitoring, while deliberately avoiding any role in battery charge/discharge control.
-
-**Safety design objective:** this service must not cause Victron system components, including MPPT chargers, to adopt BMS-controlled charging or discharge limits or modes. This is an objective to be verified through source review and testing—not yet a proven property.
+**Not validated:** has not been executed on Venus OS. Do not deploy to the camper before testing D-Bus behavior and charger/MPPT independence on an isolated device.
 
 ## Scope
+Telemetry only: voltage/current/power, SOC, capacity, cell voltages and temperatures.
 
-- Read JK-BMS telemetry and expose monitoring values only.
-- Support the intended JK-BMS connection method(s), beginning with serial.
-- Reuse and adapt upstream communication/parsing approaches only after reviewing upstream code, license, and required attribution.
-- Keep the monitor service separate from other camper/display projects.
+## Excluded
+No BMS writes; no CVL/CCL/DCL; no /Info/MaxChargeVoltage, /Info/MaxChargeCurrent, /Info/MaxDischargeCurrent or /Capabilities/ChargeVoltageControl.
 
-## Explicit exclusions
-
-- No CVL, CCL, DCL, charge-voltage/current-limit, discharge-current-limit, or equivalent control outputs.
-- No writes/commands to the BMS for configuration, switching, charging, discharging, or protection control.
-- No D-Bus properties, flags, or service behavior intended to signal battery-control authority to Victron system components.
-- No automatic installation, build, flashing, or live-system changes as part of development without explicit user approval.
-
-## Project status
-
-Initial repository setup and design constraints. Implementation and behavior validation are pending.
-
-See [AGENTS.md](AGENTS.md), [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), [docs/PROJECT_STATUS.md](docs/PROJECT_STATUS.md), and [CHANGELOG.md](CHANGELOG.md).
+## Installation
+Review install.sh and docs/TEST_PLAN.md first. This is a preliminary script-based installation, not yet a validated Venus OS package-manager archive.
