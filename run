@@ -1,0 +1,4 @@
+#!/bin/sh
+set -eu
+. /data/apps/JK-BMS-Monitor/etc/jk-bms-monitor
+exec python3 /data/apps/JK-BMS-Monitor/monitor/dbus_monitor.py
