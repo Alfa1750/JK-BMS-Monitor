@@ -16,4 +16,7 @@ Accepted: no builds, installs, service starts, flashes or Pi changes without exp
 Accepted: omit /Info/MaxChargeVoltage; source inspection shows systemcalc BatteryService uses it to classify a service as BMS.
 
 ## D-006 — Serial-only v0.1
-Accepted: initial test targets serial and manually configured port. BLE is out of scope.
+Historical decision; BLE was subsequently added in v0.1.1.
+
+## D-007 — App-local Python dependencies
+Accepted for v0.1.2 test candidate: pin Bleak and dbus-fast and install via pip --target into the application's vendor folder, avoiding system Python package changes. Target-device installation remains unverified.
