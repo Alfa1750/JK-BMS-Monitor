@@ -1,25 +1,19 @@
-# Decisions — JK-BMS-Monitor
+# Decisions
 
-## D-001 — Separate read-only monitoring service
-**Date:** 2026-11-25  
-**Status:** Accepted
+## D-001 — Separate read-only service
+Accepted 2026-11-25: separate project from VantourerDisplayBridge.
 
-Develop a separate Venus OS service for JK-BMS monitoring, distinct from VantourerDisplayBridge and any control integration.
+## D-002 — Strict control exclusion
+Accepted: no BMS writes, control limits or control-related D-Bus flags.
 
-## D-002 — Strictly exclude control behavior
-**Date:** 2026-11-25  
-**Status:** Accepted
+## D-003 — Upstream research and licensing
+Accepted: dbus-serialbattery used as protocol research; provenance recorded and AGPL-compatible licensing adopted.
 
-The service must not send BMS configuration/control commands or expose charge/discharge control limits or control-oriented D-Bus properties/flags. The intended behavior must be verified against Venus OS consumers and testing.
+## D-004 — No live actions without approval
+Accepted: no builds, installs, service starts, flashes or Pi changes without explicit approval.
 
-## D-003 — Upstream code is a research reference, not an assumed safe base
-**Date:** 2026-11-25  
-**Status:** Accepted
+## D-005 — Omit systemcalc BMS marker
+Accepted: omit /Info/MaxChargeVoltage; source inspection shows systemcalc BatteryService uses it to classify a service as BMS.
 
-Study dbus-serialbattery communication, parsing, and telemetry methods. Reuse is conditional on license review, attribution, and removal/isolation of all control behavior.
-
-## D-004 — No live system actions without user approval
-**Date:** 2026-11-25  
-**Status:** Accepted
-
-Do not build, install, start, flash, or modify the user's Raspberry Pi/Venus OS system unless explicitly authorized.
+## D-006 — Serial-only v0.1
+Accepted: initial test targets serial and manually configured port. BLE is out of scope.
