@@ -44,7 +44,22 @@ if [ ! -f "$RC_LOCAL" ]; then
     chmod 755 "$RC_LOCAL"
 fi
 if ! grep -Fq "$BOOT_HOOK" "$RC_LOCAL"; then
-    printf '\n# JK-BMS-Monitor persistent service startup\n%s\n' "$BOOT_HOOK" >> "$RC_LOCAL"
+    TMP_RC="$RC_LOCAL.tmp"
+    awk -v hook="$BOOT_HOOK" '
+        /^exit 0$/ && !inserted {
+            print "# JK-BMS-Monitor persistent service startup"
+            print hook
+            inserted=1
+        }
+        { print }
+        END {
+            if (!inserted) {
+                print "# JK-BMS-Monitor persistent service startup"
+                print hook
+            }
+        }
+    ' "$RC_LOCAL" > "$TMP_RC"
+    mv "$TMP_RC" "$RC_LOCAL"
 fi
 
 # Provision the live service and start it without requiring a reboot.
