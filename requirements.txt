@@ -1,0 +1,3 @@
+# Runtime BLE dependency stack; installed app-locally by install.sh
+bleak==0.21.1
+dbus-fast==2.20.0
