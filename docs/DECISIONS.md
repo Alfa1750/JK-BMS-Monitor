@@ -19,4 +19,7 @@ Accepted: omit /Info/MaxChargeVoltage; source inspection shows systemcalc Batter
 Historical decision; BLE was subsequently added in v0.1.1.
 
 ## D-007 — App-local BLE dependencies
-Accepted for v0.1.2 test candidate: pin Bleak and dbus-fast and install via pip --target into the application vendor folder, avoiding system Python package changes. Target-device install remains unverified.
+Accepted for v0.1.2 onward: pin Bleak and dbus-fast and install via pip --target into the application vendor folder, avoiding system Python package changes.
+
+## D-008 — Automatic service lifecycle and logs
+Accepted for v0.1.3 test candidate: install registers a persistent startup helper in /data/rc.local, which recreates the volatile service/log wrappers and starts the service. Supervised logs are retained under /data/log/jk-bms-monitor. This replaces normal-user manual service start commands. Target-device behavior remains unverified.
