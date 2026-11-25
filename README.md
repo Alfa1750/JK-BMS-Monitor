@@ -11,9 +11,9 @@ Edit `/data/JK-BMS-Monitor/etc/jk-bms-monitor`:
 The monitor publishes telemetry only and does not expose Victron control-limit paths. BLE uses protocol read requests only; no BMS configuration/control register implementation is included.
 
 ## Installation and dependencies
-Package installation runs the dependency installer and installs the pinned BLE Python packages (Bleak and dbus-fast) into the application's own `vendor` directory. It does not install these packages into system Python and does not require the user to run pip manually. The installer preserves an existing configuration during upgrades.
+Package installation automatically installs pinned BLE Python packages (Bleak and dbus-fast) into the application's own `vendor` directory. It does not install these packages into system Python and does not require the user to run pip manually. A default configuration template is used only if the configuration is missing.
 
-A network connection is required during installation to retrieve Python dependencies. Installation does not automatically restart the service or reboot the GX device.
+A network connection is required during installation to retrieve Python dependencies. Installation does not automatically restart the service or reboot the GX.
 
 ## Important test boundary
 v0.1.2 is a test candidate. BLE protocol compatibility, runtime dependency installation on the test GX, Bluetooth permissions, reconnect behavior, D-Bus paths and systemcalc/charger independence still require user-controlled validation on an isolated test device.
