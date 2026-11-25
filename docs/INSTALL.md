@@ -1,8 +1,16 @@
-# Installation and configuration
+# Installation and configuration — v0.1.2
 
-Install/update from Venus OS PackageManager on the isolated test GX.
+Install/update through Venus OS PackageManager on the isolated test GX.
 
-After installation, configure the monitor file:
+The package installer automatically:
+- Copies the monitor files to `/data/JK-BMS-Monitor`.
+- Creates the configuration only on first install; upgrades preserve existing configuration.
+- Installs pinned BLE dependencies into `/data/JK-BMS-Monitor/vendor` using pip's `--target`, not into system Python.
+- Creates the service wrapper.
+
+A network connection is required to download dependencies during install. The installer does not automatically restart the service or reboot.
+
+Configuration file:
 `/data/JK-BMS-Monitor/etc/jk-bms-monitor`
 
 For BLE:
@@ -14,4 +22,4 @@ For UART:
 - `JKMONITOR_PORT=/dev/ttyUSB0`
 - `JKMONITOR_BAUD=115200`
 
-Restarting the monitor service is needed after changing the configuration. Only do so after the user explicitly requests the service restart. Confirm BLE support/dependency and behavior on the isolated Pi before considering this validated.
+After installation, configure the MAC and then perform any service restart only when explicitly directed by the user. Validate BLE on the isolated test Pi first.
