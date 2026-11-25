@@ -3,7 +3,8 @@ set -eu
 
 SOURCE_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 APP="$SOURCE_DIR"
-SERVICE=/service/jk-bms-monitor
+BOOT_HOOK=/data/JK-BMS-Monitor/boot
+RC_LOCAL=/data/rc.local
 
 if [ "$(id -u)" -ne 0 ]; then
     echo "Run as root"
@@ -17,8 +18,16 @@ if ! python3 -m pip --version >/dev/null 2>&1; then
     echo "Python pip is required. Installer did not change the system."
     exit 1
 fi
+if ! command -v svc >/dev/null 2>&1; then
+    echo "Venus OS svc command not found; aborting"
+    exit 1
+fi
+if ! command -v svlogd >/dev/null 2>&1; then
+    echo "Venus OS svlogd command not found; aborting"
+    exit 1
+fi
 
-mkdir -p "$APP/vendor" "$APP/etc" "$SERVICE"
+mkdir -p "$APP/vendor" "$APP/etc"
 
 # Preserve existing user configuration on upgrades; initialize only on first install.
 if [ ! -f "$APP/etc/jk-bms-monitor" ]; then
@@ -26,15 +35,21 @@ if [ ! -f "$APP/etc/jk-bms-monitor" ]; then
 fi
 
 # Install pinned runtime dependencies into the application's own vendor directory.
-# This avoids changing Venus OS system Python packages.
 python3 -m pip install --disable-pip-version-check --no-cache-dir --upgrade --target "$APP/vendor" -r "$APP/requirements.txt"
 
-cat > "$SERVICE/run" <<RUN
-#!/bin/sh
-exec "$APP/run"
-RUN
-chmod 755 "$SERVICE/run"
+# Install the persistent boot helper and register it in rc.local idempotently.
+chmod 755 "$APP/boot"
+if [ ! -f "$RC_LOCAL" ]; then
+    printf '#!/bin/sh\n' > "$RC_LOCAL"
+    chmod 755 "$RC_LOCAL"
+fi
+if ! grep -Fq "$BOOT_HOOK" "$RC_LOCAL"; then
+    printf '\n# JK-BMS-Monitor persistent service startup\n%s\n' "$BOOT_HOOK" >> "$RC_LOCAL"
+fi
 
-echo "JK-BMS-Monitor files and app-local BLE dependencies installed."
+# Provision the live service and start it without requiring a reboot.
+"$BOOT_HOOK"
+
+echo "JK-BMS-Monitor installed; service started and boot startup registered."
 echo "Configuration: $APP/etc/jk-bms-monitor"
-echo "No service restart or reboot performed by this installer."
+echo "Logs: /data/log/jk-bms-monitor"
