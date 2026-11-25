@@ -1,14 +1,14 @@
 # v0.1 test plan
 
-No tests have been run.
+No tests have been executed.
 
-1. Review installer and configuration.
-2. Test only on an isolated Venus OS unit, not the camper installation.
+1. Review installer, configuration and package script.
+2. Test on isolated Venus OS, not the camper.
 3. Confirm service starts and D-Bus identity appears.
-4. Inspect all published D-Bus paths and verify excluded control paths remain absent.
-5. Validate telemetry against JK app readings.
-6. Verify systemcalc selection and behavior; ensure no BMS-control role is triggered.
-7. Observe MPPT/charger behavior under a safe test plan with service present.
-8. Stop/remove monitor and verify behavior is unchanged.
-9. Test disconnect/reconnect, checksum failures, and serial timeout handling.
+4. Inspect published paths and ensure prohibited control paths are absent.
+5. Compare telemetry with JK app and validate serial protocol/baud/port.
+6. Verify systemcalc battery selection and behavior.
+7. Observe charger/MPPT behavior under a safe test plan.
+8. Stop/remove monitor and verify unaffected operation.
+9. Test disconnect/reconnect, checksum errors, timeouts and parser boundary cases.
 10. Review install/uninstall idempotency and service-manager behavior.
