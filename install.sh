@@ -1,9 +1,9 @@
 #!/bin/sh
 set -eu
 
-APP=/data/JK-BMS-Monitor
-SERVICE=/service/jk-bms-monitor
 SOURCE_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+APP="$SOURCE_DIR"
+SERVICE=/service/jk-bms-monitor
 
 if [ "$(id -u)" -ne 0 ]; then
     echo "Run as root"
@@ -18,24 +18,20 @@ if ! python3 -m pip --version >/dev/null 2>&1; then
     exit 1
 fi
 
-mkdir -p "$APP/monitor" "$APP/vendor" "$APP/etc" "$SERVICE"
-cp "$SOURCE_DIR"/monitor/*.py "$APP/monitor/"
-cp "$SOURCE_DIR"/requirements.txt "$APP/requirements.txt"
-cp "$SOURCE_DIR"/run "$APP/run"
-chmod 755 "$APP/run"
+mkdir -p "$APP/vendor" "$APP/etc" "$SERVICE"
 
 # Preserve existing user configuration on upgrades; initialize only on first install.
 if [ ! -f "$APP/etc/jk-bms-monitor" ]; then
-    cp "$SOURCE_DIR/etc/jk-bms-monitor" "$APP/etc/jk-bms-monitor"
+    cp "$APP/etc/jk-bms-monitor.default" "$APP/etc/jk-bms-monitor"
 fi
 
-# Install pinned runtime dependencies into the app-local vendor directory.
+# Install pinned runtime dependencies into the application's own vendor directory.
 # This avoids changing Venus OS system Python packages.
 python3 -m pip install --disable-pip-version-check --no-cache-dir --upgrade --target "$APP/vendor" -r "$APP/requirements.txt"
 
-cat > "$SERVICE/run" <<'RUN'
+cat > "$SERVICE/run" <<RUN
 #!/bin/sh
-exec /data/JK-BMS-Monitor/run
+exec "$APP/run"
 RUN
 chmod 755 "$SERVICE/run"
 
