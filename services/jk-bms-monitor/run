@@ -1,0 +1,2 @@
+#!/bin/sh
+exec /data/JK-BMS-Monitor/run
