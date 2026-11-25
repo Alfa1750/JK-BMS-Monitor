@@ -1,21 +1,17 @@
 # Project Status — JK-BMS-Monitor
 
-Version: v0.1.0 test candidate  
-Initial code and package scripts committed  
-Tests: not run  
-Package creation: not run  
-Installation: not performed  
-Live system changes: none
+Version: v0.1.0 test candidate
 
-## v0.1 contents
-- Reduced JK serial telemetry parser and bounded reader.
-- Preliminary D-Bus monitor service.
-- Manual configuration, installer, uninstaller and archive helper.
-- Research and test documentation.
-- Control-limit paths and BMS marker paths intentionally omitted.
+## Package format correction
+- Added the required root `version`, `gitHubInfo`, and SetupHelper `setup` entry point.
+- Added a service template in `services/jk-bms-monitor/run`, using the package launcher.
+- Updated README and packaging documentation to describe PackageManager recognition and the verification boundary.
+- This correction is based on SetupHelper PackageDevelopmentGuidelines (v6.0): root metadata and setup entry point; services managed from `services/`.
 
-## Validation gate
-Not validated for deployment. D-Bus registration, systemcalc selection, charger/MPPT independence, serial protocol parsing, startup and removal must be tested on an isolated Venus OS device.
+## Not yet verified
+- PackageManager GitHub detection and download.
+- Package installation/uninstallation via PackageManager.
+- Service registration, startup and removal on Venus OS.
+- D-Bus behavior, systemcalc selection, charger/MPPT independence, JK serial telemetry.
 
-## Next
-Review v0.1 on a test device. Confirm published paths, service-manager integration and behavior before any camper deployment.
+No device actions or tests were performed during this correction. Test only on an isolated Venus OS device before camper deployment.
