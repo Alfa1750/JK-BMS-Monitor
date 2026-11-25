@@ -1,14 +1,14 @@
-# v0.1 test plan
+# Test plan — v0.1.1 test candidate
 
-No tests have been executed.
+No tests or live system actions have been performed by the assistant.
 
-1. Review installer, configuration and package script.
-2. Test on isolated Venus OS, not the camper.
-3. Confirm service starts and D-Bus identity appears.
-4. Inspect published paths and ensure prohibited control paths are absent.
-5. Compare telemetry with JK app and validate serial protocol/baud/port.
-6. Verify systemcalc battery selection and behavior.
-7. Observe charger/MPPT behavior under a safe test plan.
-8. Stop/remove monitor and verify unaffected operation.
-9. Test disconnect/reconnect, checksum errors, timeouts and parser boundary cases.
-10. Review install/uninstall idempotency and service-manager behavior.
+1. Install/update on isolated test GX only.
+2. Confirm whether Python Bleak is available; do not install dependencies without approval.
+3. Configure BLE mode and MAC address in `/data/JK-BMS-Monitor/etc/jk-bms-monitor`.
+4. User-controlled service restart; verify connection and telemetry against JK app.
+5. Validate BLE frame assembly, checksum, cells, current, SOC, capacity and temperature values.
+6. Test disconnect/reconnect and service restart.
+7. Confirm serial mode still works using `JKMONITOR_MODE=serial`.
+8. Inspect D-Bus paths; no control paths or DVCC/CVL/CCL/DCL values.
+9. Observe systemcalc and MPPT behavior under isolated/safe test procedure.
+10. Uninstall and verify service/files cleanup.
