@@ -18,5 +18,5 @@ Accepted: omit /Info/MaxChargeVoltage; source inspection shows systemcalc Batter
 ## D-006 — Serial-only v0.1
 Historical decision; BLE was subsequently added in v0.1.1.
 
-## D-007 — App-local Python dependencies
-Accepted for v0.1.2 test candidate: pin Bleak and dbus-fast and install via pip --target into the application's vendor folder, avoiding system Python package changes. Target-device installation remains unverified.
+## D-007 — App-local BLE dependencies
+Accepted for v0.1.2 test candidate: pin Bleak and dbus-fast and install via pip --target into the application vendor folder, avoiding system Python package changes. Target-device install remains unverified.
