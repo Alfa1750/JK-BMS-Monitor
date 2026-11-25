@@ -1,6 +1,6 @@
 # JK-BMS-Monitor
 
-Read-only JK-BMS monitor for Venus OS. Version 0.1.1 candidate supports BLE and UART transport selection.
+Read-only JK-BMS monitor for Venus OS. **v0.1.2 test candidate** supports BLE and UART transport selection.
 
 ## Configure
 Edit `/data/JK-BMS-Monitor/etc/jk-bms-monitor`:
@@ -8,10 +8,12 @@ Edit `/data/JK-BMS-Monitor/etc/jk-bms-monitor`:
 - BLE: set `JKMONITOR_BLE_ADDRESS` to the JK BMS MAC address
 - UART: set `JKMONITOR_PORT` and `JKMONITOR_BAUD`
 
-The monitor publishes telemetry only and does not expose Victron control-limit paths. BLE uses read-request protocol frames only; no BMS configuration/control register implementation is included. UART uses the serial reader.
+The monitor publishes telemetry only and does not expose Victron control-limit paths. BLE uses protocol read requests only; no BMS configuration/control register implementation is included.
 
-## PackageManager
-Package metadata is at repository root. Recognition and install lifecycle have been observed on the isolated test Pi for v0.1.0. v0.1.1 runtime behavior remains to be tested there.
+## Installation and dependencies
+Package installation runs the dependency installer and installs the pinned BLE Python packages (Bleak and dbus-fast) into the application's own `vendor` directory. It does not install these packages into system Python and does not require the user to run pip manually. The installer preserves an existing configuration during upgrades.
+
+A network connection is required during installation to retrieve Python dependencies. Installation does not automatically restart the service or reboot the GX device.
 
 ## Important test boundary
-BLE dependencies (Bleak), BlueZ permissions, protocol compatibility, reconnect behavior, D-Bus paths and systemcalc/charger independence have not yet been validated on-device. Treat v0.1.1 as a test candidate, not proven-safe deployment.
+v0.1.2 is a test candidate. BLE protocol compatibility, runtime dependency installation on the test GX, Bluetooth permissions, reconnect behavior, D-Bus paths and systemcalc/charger independence still require user-controlled validation on an isolated test device.
