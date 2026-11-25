@@ -1,7 +1,14 @@
-# Packaging notes
+# SetupHelper / PackageManager packaging
 
-v0.1 currently has a preliminary source-tree installer and runit-style wrapper. It is not yet integrated with a verified Venus OS package-manager format.
+The repository now follows the package recognition structure documented by SetupHelper:
 
-The included package.sh creates a reviewable source archive when run by the developer. It has not been run. Archive installation layout and service registration must be validated on a test Venus OS unit before this is treated as a package-manager-ready release.
+- `version`: package version string
+- `gitHubInfo`: `owner:branch` metadata
+- `setup`: executable SetupHelper entry point, sourcing IncludeHelpers
+- `services/jk-bms-monitor/run`: service template installed and tracked by SetupHelper
+- `run`: package-owned launcher
+- `monitor/` and `etc/`: monitor code and configuration
 
-The installer currently assumes a Venus OS runit service directory and the bundled velib_python path. These assumptions need testing.
+SetupHelper v6+ automatically manages service directories located in `services/`. The service template runs the package launcher under `/data/JK-BMS-Monitor`. The setup entry point delegates package install/uninstall handling to SetupHelper CommonResources.
+
+Static repository corrections are committed, but PackageManager recognition, download, installation, service lifecycle, D-Bus behavior and telemetry remain unverified on Venus OS. Do not consider this tested/ready for live deployment until the isolated-device test plan is completed.
