@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-APP=/data/apps/JK-BMS-Monitor
+APP=/data/JK-BMS-Monitor
 SERVICE=/service/jk-bms-monitor
 SOURCE_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 
@@ -35,7 +35,7 @@ python3 -m pip install --disable-pip-version-check --no-cache-dir --upgrade --ta
 
 cat > "$SERVICE/run" <<'RUN'
 #!/bin/sh
-exec /data/apps/JK-BMS-Monitor/run
+exec /data/JK-BMS-Monitor/run
 RUN
 chmod 755 "$SERVICE/run"
 
