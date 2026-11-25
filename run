@@ -1,6 +1,6 @@
 #!/bin/sh
 set -eu
-APP=/data/apps/JK-BMS-Monitor
+APP=/data/JK-BMS-Monitor
 export PYTHONPATH="$APP/vendor:$APP/monitor${PYTHONPATH:+:$PYTHONPATH}"
 . "$APP/etc/jk-bms-monitor"
 exec python3 "$APP/monitor/dbus_monitor.py"
