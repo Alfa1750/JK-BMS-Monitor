@@ -1,0 +1,4 @@
+#!/bin/bash
+# JK-BMS-Monitor SetupHelper package setup entrypoint.
+standardPromptAndActions='yes'
+source "/data/SetupHelper/HelperResources/IncludeHelpers"
