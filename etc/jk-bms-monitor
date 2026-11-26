@@ -1,9 +1,0 @@
-# Transport: ble (default) or serial
-JKMONITOR_MODE=ble
-# BLE MAC address; required in BLE mode
-JKMONITOR_BLE_ADDRESS=
-# Serial settings used when JKMONITOR_MODE=serial
-JKMONITOR_PORT=/dev/ttyUSB0
-JKMONITOR_BAUD=115200
-JKMONITOR_INSTANCE=290
-JKMONITOR_POLL_SECONDS=2

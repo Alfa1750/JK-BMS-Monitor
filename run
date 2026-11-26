@@ -2,9 +2,18 @@
 set -eu
 APP=/data/JK-BMS-Monitor
 VENDOR="$APP/vendor"
+CONFIG_DIR="$APP/config"
+CONFIG="$CONFIG_DIR/jk-bms-monitor"
 export PYTHONPATH="$VENDOR:$APP/monitor${PYTHONPATH:+:$PYTHONPATH}"
-. "$APP/etc/jk-bms-monitor"
-mkdir -p "$VENDOR"
+mkdir -p "$VENDOR" "$CONFIG_DIR"
+if [ ! -f "$CONFIG" ]; then
+    if [ -f "$APP/etc/jk-bms-monitor" ]; then
+        cp "$APP/etc/jk-bms-monitor" "$CONFIG"
+    else
+        cp "$APP/etc/jk-bms-monitor.default" "$CONFIG"
+    fi
+fi
+. "$CONFIG"
 if ! python3 -c 'import bleak, dbus_fast' >/dev/null 2>&1; then
     python3 -m pip install --disable-pip-version-check --no-cache-dir --upgrade --target "$VENDOR" -r "$APP/requirements.txt"
 fi
