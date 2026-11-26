@@ -1,17 +1,14 @@
 # Project Status — JK-BMS-Monitor
 
-## Version 0.1.4 — PackageManager test candidate
-- Reworked package setup to use the SetupHelper standard action flow and service-directory lifecycle.
-- Removed the custom `/data/rc.local` boot helper/service overlay provisioning approach from the package workflow.
-- SetupHelper is expected to install/update/remove the `services/jk-bms-monitor` service from the package service directory.
-- Runtime launcher bootstraps pinned BLE dependencies into the package-local `vendor` directory if they are absent, then launches the monitor.
-- User configuration is created/migrated into `/data/JK-BMS-Monitor/config`, outside the PackageManager payload, to avoid update replacement.
-- Logging is defined in the service's `log/run` script and is intended to use Venus OS `svlogd`.
+## Version 0.1.5 — test candidate
+- Retains v0.1.4 SetupHelper package/service flow and app-local pinned BLE dependency bootstrap.
+- On telemetry read errors, publishes disconnected/error state and clears telemetry values to prevent stale readings being presented as current.
+- Process version path reports 0.1.5.
+- Strict read-only boundary retained; no control paths or BMS write functions added.
 
 ## Not verified
-- PackageManager download/recognition and SetupHelper installation/update/uninstall behavior.
+- PackageManager recognition and SetupHelper install/update/uninstall behavior.
 - Service startup and logger behavior on target Venus OS.
-- Dependency bootstrap via pip and network behavior.
-- BLE protocol/notification framing across JK models; UART operation after transport selection.
+- Dependency bootstrap via pip, network behavior, BLE/UART protocol operation.
 - D-Bus/systemcalc/MPPT independence, disconnect/reconnect and telemetry comparison.
 - No device installation, service start, reboot or telemetry tests performed by the assistant.
