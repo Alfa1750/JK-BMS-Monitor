@@ -1,3 +1,3 @@
-# Runtime BLE dependency stack; installed app-locally by install.sh
+# Bleak is installed app-locally; dbus-fast is unpacked from its source archive
+# by bootstrap_ble.py to avoid the source-build backend on Venus OS.
 bleak==0.21.1
-dbus-fast==2.20.0

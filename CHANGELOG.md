@@ -3,7 +3,7 @@
 ## v0.1.5 — 2026-11-26 test candidate
 - Clear published telemetry values on read failures, preventing stale measurements from remaining visible while disconnected.
 - Updated D-Bus process version to 0.1.5.
-- Retains v0.1.4 SetupHelper packaging and app-local pip dependency bootstrap.
+- Avoid the dbus-fast source build backend during runtime bootstrap: install Bleak without dependency resolution and unpack dbus-fast 2.20.0's pure-Python source package into the app-local vendor directory.
 - Static source review only; no on-device installation, service, BLE/UART or charger-independence tests performed.
 
 ## v0.1.4 — 2026-11-26 test candidate

@@ -4,7 +4,9 @@ Install or update through Venus OS PackageManager using SetupHelper.
 
 SetupHelper manages service installation, update, startup and removal using the package service directory. No custom `/data/rc.local` hook is used.
 
-The service launcher creates `/data/JK-BMS-Monitor/config/jk-bms-monitor` from a prior configuration when available, or from `etc/jk-bms-monitor.default`. The configuration is outside the package payload. It checks for Bleak and dbus-fast; if absent, it installs the pinned requirements into `vendor` using pip `--target`. Network access is required for that first bootstrap.
+The service launcher creates `/data/JK-BMS-Monitor/config/jk-bms-monitor` from a prior configuration when available, or from `etc/jk-bms-monitor.default`. The configuration is outside the package payload.
+
+On first BLE bootstrap, pip installs pinned Bleak into `vendor` with dependency resolution disabled. A separate bootstrap helper downloads and safely extracts the pure-Python dbus-fast 2.20.0 package into `vendor/dbus_fast`, bypassing its source-build backend. Network access is required. System Python packages are not changed.
 
 Configuration file: `/data/JK-BMS-Monitor/config/jk-bms-monitor`.
 
@@ -16,4 +18,4 @@ Logs are intended to be captured under `/data/log/jk-bms-monitor` by the SetupHe
 
 On read failures, telemetry is cleared and the service marks itself disconnected/error.
 
-This package is a test candidate. PackageManager, SetupHelper lifecycle, dependency bootstrap, BLE/UART operation, D-Bus behavior and charger independence remain unverified on-device.
+This package is a test candidate. PackageManager, SetupHelper lifecycle, bootstrap download/extraction/import, BLE/UART operation, D-Bus behavior and charger independence remain unverified on-device.

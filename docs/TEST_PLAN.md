@@ -1,10 +1,10 @@
-# Test plan — v0.1.4 test candidate
+# Test plan — v0.1.5 test candidate
 
-No v0.1.4 device test has been performed by the assistant.
+No device test has been performed by the assistant.
 
-1. Update/install v0.1.4 through PackageManager on the isolated test GX.
+1. Update/install v0.1.5 through PackageManager on the isolated test GX.
 2. Verify SetupHelper handles the package and installs the service into persistent and active service locations.
-3. Verify service/logger startup and dependency bootstrap; confirm pinned dependencies are installed app-locally and system Python is not modified.
+3. Verify service/logger startup and dependency bootstrap; confirm Bleak and dbus-fast are installed app-locally, with system Python unchanged.
 4. Configure BLE mode and MAC in `/data/JK-BMS-Monitor/config/jk-bms-monitor`.
 5. Verify telemetry and logs under `/data/log/jk-bms-monitor`.
 6. Reboot the GX under the user's control and verify automatic startup.
