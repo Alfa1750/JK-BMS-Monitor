@@ -4,6 +4,7 @@
 - Replaced the custom boot helper, `/data/rc.local` hook and manual service overlay creation with the SetupHelper standard action/service-directory workflow.
 - SetupHelper-managed service and logger templates are packaged under `services/jk-bms-monitor`.
 - Runtime launcher bootstraps pinned Bleak and dbus-fast dependencies into the app-local vendor directory when imports are missing.
+- User configuration is stored outside the package payload and migrates the prior v0.1.3 config on first startup.
 - Updated packaging and test documentation for PackageManager/SetupHelper behavior.
 - Static repository review only; no on-device install, service, BLE or charger-independence tests performed.
 
