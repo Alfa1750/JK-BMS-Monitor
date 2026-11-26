@@ -1,10 +1,10 @@
-# Installation and configuration — v0.1.4 test candidate
+# Installation and configuration — v0.1.5 test candidate
 
 Install or update through Venus OS PackageManager using SetupHelper.
 
-SetupHelper's standard action flow installs the package service from `services/jk-bms-monitor` and handles its service lifecycle and removal. The package no longer registers a custom `/data/rc.local` startup hook or manually creates the active `/service` overlay.
+SetupHelper manages service installation, update, startup and removal using the package service directory. No custom `/data/rc.local` hook is used.
 
-On first service start, the launcher creates `/data/JK-BMS-Monitor/config/jk-bms-monitor` from the prior configuration (when available) or from `etc/jk-bms-monitor.default`. This config is outside the PackageManager payload. The launcher checks for Bleak and dbus-fast; if missing, it installs the pinned requirements into `/data/JK-BMS-Monitor/vendor` using pip `--target`, then starts the monitor. Network access is required for that first dependency bootstrap. The system Python package set is not intentionally changed.
+The service launcher creates `/data/JK-BMS-Monitor/config/jk-bms-monitor` from a prior configuration when available, or from `etc/jk-bms-monitor.default`. The configuration is outside the package payload. It checks for Bleak and dbus-fast; if absent, it installs the pinned requirements into `vendor` using pip `--target`. Network access is required for that first bootstrap.
 
 Configuration file: `/data/JK-BMS-Monitor/config/jk-bms-monitor`.
 
@@ -14,4 +14,6 @@ For UART: `JKMONITOR_MODE=serial`, `JKMONITOR_PORT=/dev/ttyUSB0` and `JKMONITOR_
 
 Logs are intended to be captured under `/data/log/jk-bms-monitor` by the SetupHelper-installed logger service.
 
-This package is a test candidate. PackageManager, SetupHelper service lifecycle, dependency bootstrap, BLE/UART operation, D-Bus behavior and charger independence remain unverified on-device.
+On read failures, telemetry is cleared and the service marks itself disconnected/error.
+
+This package is a test candidate. PackageManager, SetupHelper lifecycle, dependency bootstrap, BLE/UART operation, D-Bus behavior and charger independence remain unverified on-device.
