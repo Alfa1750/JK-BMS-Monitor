@@ -1,16 +1,11 @@
-# Test plan — v0.1.5 test candidate
-
-No device test has been performed by the assistant.
-
-1. Update/install v0.1.5 through PackageManager on the isolated test GX.
-2. Verify SetupHelper handles the package and installs the service into persistent and active service locations.
-3. Verify service/logger startup and dependency bootstrap; confirm Bleak and dbus-fast are installed app-locally, with system Python unchanged.
-4. Configure BLE mode and MAC in `/data/JK-BMS-Monitor/config/jk-bms-monitor`.
-5. Verify telemetry and logs under `/data/log/jk-bms-monitor`.
-6. Reboot the GX under the user's control and verify automatic startup.
-7. Validate BLE frame assembly, checksum, cells, current, SOC, capacity and temperature values against JK app.
-8. Test disconnect/reconnect and service restart behavior.
-9. Confirm serial mode still works using `JKMONITOR_MODE=serial`.
-10. Inspect D-Bus paths; no control paths or DVCC/CVL/CCL/DCL values.
-11. Observe systemcalc and MPPT behavior under isolated/safe test procedure.
-12. Uninstall through PackageManager and verify service removal and retained/removed app data behavior.
+# Test plan — v0.2.0
+1. PackageManager recognition and SetupHelper install/update/remove.
+2. Verify service is `com.victronenergy.sensor.jkmonitor`, never `com.victronenergy.battery.*`.
+3. Inspect D-Bus for absence of battery-control limits, flags and DVCC control capabilities.
+4. Verify systemcalc does not select it as battery/BMS.
+5. Confirm MPPT/charger behavior is unchanged while connected, disconnected, after Pi reboot and service stop.
+6. Validate BLE telemetry and reconnection.
+7. Validate UART telemetry.
+8. Validate display visibility and stale-data clearing.
+9. Verify uninstall leaves no control-related changes.
+None of these target tests have yet been executed.

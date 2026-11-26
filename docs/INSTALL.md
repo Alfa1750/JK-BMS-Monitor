@@ -1,21 +1,8 @@
-# Installation and configuration — v0.1.5 test candidate
+# Installation — v0.2.0
 
-Install or update through Venus OS PackageManager using SetupHelper.
+Install/update/remove through Venus OS PackageManager using SetupHelper. Persistent configuration: `/data/JK-BMS-Monitor/config/jk-bms-monitor`.
 
-SetupHelper manages service installation, update, startup and removal using the package service directory. No custom `/data/rc.local` hook is used.
+BLE: `JKMONITOR_MODE=ble`, set `JKMONITOR_BLE_ADDRESS`.
+UART: `JKMONITOR_MODE=serial`, set `JKMONITOR_PORT` and `JKMONITOR_BAUD`.
 
-The service launcher creates `/data/JK-BMS-Monitor/config/jk-bms-monitor` from a prior configuration when available, or from `etc/jk-bms-monitor.default`. The configuration is outside the package payload.
-
-On first BLE bootstrap, pip installs pinned Bleak into `vendor` with dependency resolution disabled. A separate bootstrap helper downloads and safely extracts the pure-Python dbus-fast 2.20.0 package into `vendor/dbus_fast`, bypassing its source-build backend. Network access is required. System Python packages are not changed.
-
-Configuration file: `/data/JK-BMS-Monitor/config/jk-bms-monitor`.
-
-For BLE: `JKMONITOR_MODE=ble` and `JKMONITOR_BLE_ADDRESS=<BMS MAC>`.
-
-For UART: `JKMONITOR_MODE=serial`, `JKMONITOR_PORT=/dev/ttyUSB0` and `JKMONITOR_BAUD=115200`.
-
-Logs are intended to be captured under `/data/log/jk-bms-monitor` by the SetupHelper-installed logger service.
-
-On read failures, telemetry is cleared and the service marks itself disconnected/error.
-
-This package is a test candidate. PackageManager, SetupHelper lifecycle, bootstrap download/extraction/import, BLE/UART operation, D-Bus behavior and charger independence remain unverified on-device.
+This release publishes a generic sensor service, not a battery service. Its intended isolation from systemcalc/DVCC is unverified on the GX device; do not treat as field-validated.
