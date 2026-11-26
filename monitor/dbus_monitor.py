@@ -14,7 +14,7 @@ bus=dbus.bus.BusConnection(dbus.bus.BusConnection.TYPE_SYSTEM)
 svc=VeDbusService("com.victronenergy.battery.jkmonitor",bus,register=False)
 paths={"/DeviceInstance":INSTANCE,"/ProductName":"JK-BMS Monitor (read-only)","/ProductId":0,
 "/CustomName":"JK-BMS Monitor","/Connected":0,"/Mgmt/Connection":"BLE/UART",
-"/Mgmt/ProcessName":"JK-BMS-Monitor","/Mgmt/ProcessVersion":"0.1.1",
+"/Mgmt/ProcessName":"JK-BMS-Monitor","/Mgmt/ProcessVersion":"0.1.5",
 "/Dc/0/Voltage":None,"/Dc/0/Current":None,"/Dc/0/Power":None,"/Soc":None,
 "/Capacity":None,"/InstalledCapacity":None,"/System/MinCellVoltage":None,
 "/System/MaxCellVoltage":None,"/System/CellCount":None,"/System/CellVoltageSpread":None,
@@ -25,6 +25,7 @@ svc.register()
 def poll():
  try:
   t=read_telemetry();cells=t["cells"];temps=t["temperatures"]
+  if not cells: raise ValueError("Telemetry contains no cell voltage data")
   svc["/Connected"]=1;svc["/Error"]=0
   svc["/Dc/0/Voltage"]=t["voltage"];svc["/Dc/0/Current"]=t["current"]
   svc["/Dc/0/Power"]=round(t["voltage"]*t["current"],2)
@@ -36,6 +37,14 @@ def poll():
   svc["/ChargeCycles"]=t["cycles"];svc["/FirmwareVersion"]=t["version"] or ""
   log.info("Telemetry %.2fV %.2fA SOC=%s",t["voltage"],t["current"],t["soc"])
  except Exception as e:
-  svc["/Connected"]=0;svc["/Error"]=1;log.warning("Read failed: %s",e)
+  # Clear telemetry on failure so stale values are not presented as current.
+  svc["/Connected"]=0;svc["/Error"]=1
+  for p in ("/Dc/0/Voltage","/Dc/0/Current","/Dc/0/Power","/Soc","/Capacity",
+            "/InstalledCapacity","/System/MinCellVoltage","/System/MaxCellVoltage",
+            "/System/CellCount","/System/CellVoltageSpread","/System/CellVoltages",
+            "/Dc/0/Temperature","/System/Temperatures","/ChargeCycles"):
+   svc[p]=None
+  svc["/FirmwareVersion"]=""
+  log.warning("Read failed; telemetry cleared: %s",e)
  return True
 poll();GLib.timeout_add_seconds(max(1,POLL),poll);GLib.MainLoop().run()
