@@ -1,6 +1,11 @@
 #!/bin/sh
 set -eu
 APP=/data/JK-BMS-Monitor
-export PYTHONPATH="$APP/vendor:$APP/monitor${PYTHONPATH:+:$PYTHONPATH}"
+VENDOR="$APP/vendor"
+export PYTHONPATH="$VENDOR:$APP/monitor${PYTHONPATH:+:$PYTHONPATH}"
 . "$APP/etc/jk-bms-monitor"
+mkdir -p "$VENDOR"
+if ! python3 -c 'import bleak, dbus_fast' >/dev/null 2>&1; then
+    python3 -m pip install --disable-pip-version-check --no-cache-dir --upgrade --target "$VENDOR" -r "$APP/requirements.txt"
+fi
 exec python3 "$APP/monitor/dbus_monitor.py"

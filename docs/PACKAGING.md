@@ -1,14 +1,16 @@
-# SetupHelper / PackageManager packaging
+# SetupHelper / PackageManager packaging — v0.1.4
 
-The repository now follows the package recognition structure documented by SetupHelper:
+The package uses the SetupHelper standard package action flow:
 
-- `version`: package version string
-- `gitHubInfo`: `owner:branch` metadata
-- `setup`: executable SetupHelper entry point, sourcing IncludeHelpers
-- `services/jk-bms-monitor/run`: service template installed and tracked by SetupHelper
-- `run`: package-owned launcher
+- `version`: package version
+- `gitHubInfo`: repository owner and branch
+- `setup`: executable entry point, sets `standardPromptAndActions='yes'` and sources SetupHelper `IncludeHelpers`
+- `services/jk-bms-monitor/run` and `services/jk-bms-monitor/log/run`: service templates managed by SetupHelper
+- `run`: package launcher
 - `monitor/` and `etc/`: monitor code and configuration
 
-SetupHelper v6+ automatically manages service directories located in `services/`. The service template runs the package launcher under `/data/JK-BMS-Monitor`. The setup entry point delegates package install/uninstall handling to SetupHelper CommonResources.
+SetupHelper is responsible for installing/updating/removing the package service in the persistent service directory and active service location. The package does not manually create `/service`, copy service definitions at boot, or add a `/data/rc.local` hook.
 
-Static repository corrections are committed, but PackageManager recognition, download, installation, service lifecycle, D-Bus behavior and telemetry remain unverified on Venus OS. Do not consider this tested/ready for live deployment until the isolated-device test plan is completed.
+BLE requirements are pinned in `requirements.txt`. The service launcher installs them app-locally into `vendor` if the imports are missing, then executes the monitor. Dependency installation is performed during service startup rather than inside the SetupHelper setup script.
+
+Static repository review only; PackageManager recognition, download, installation, service lifecycle, logger behavior, dependency bootstrap, D-Bus behavior and telemetry remain unverified on Venus OS.

@@ -1,18 +1,16 @@
 # Project Status — JK-BMS-Monitor
 
-## Version 0.1.3 — test candidate
-- Corrected the service lifecycle design: installer provisions and starts the service, eliminating the manual `svc -u` step from normal user workflow.
-- Persistent startup helper stored in the application data directory and registered idempotently in `/data/rc.local`.
-- Helper recreates service and log wrappers in live `/service` overlay and starts it.
-- Supervised logs configured under `/data/log/jk-bms-monitor`.
-- Uninstaller stops the service and removes startup hook and application log directory.
-- Existing configuration is preserved on upgrade.
+## Version 0.1.4 — PackageManager test candidate
+- Reworked package setup to use the SetupHelper standard action flow and service-directory lifecycle.
+- Removed the custom `/data/rc.local` boot helper/service overlay provisioning approach from the package workflow.
+- SetupHelper is expected to install/update/remove the `services/jk-bms-monitor` service from the package service directory.
+- Runtime launcher bootstraps pinned BLE dependencies into the package-local `vendor` directory if they are absent, then launches the monitor. This keeps dependency installation outside the SetupHelper setup script's foreground processing.
+- Logging is defined in the service's `log/run` script and is intended to use Venus OS `svlogd`.
 
 ## Not verified
-- PackageManager invokes the updated installer as intended.
-- Startup hook and service persistence across GX reboot/firmware lifecycle.
-- Log service behavior and log rotation on target Venus OS.
-- BLE protocol/notification framing across JK models.
-- UART operation after transport selection.
+- PackageManager download/recognition and SetupHelper installation/update/uninstall behavior.
+- Service startup and logger behavior on target Venus OS.
+- Dependency bootstrap via pip and network behavior.
+- BLE protocol/notification framing across JK models; UART operation after transport selection.
 - D-Bus/systemcalc/MPPT independence, disconnect/reconnect and telemetry comparison.
-- No live v0.1.3 installation, service start, reboot or device tests performed by the assistant.
+- No device installation, service start, reboot or telemetry tests performed by the assistant.
