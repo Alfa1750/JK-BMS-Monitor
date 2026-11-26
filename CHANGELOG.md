@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.5 — 2026-11-26 test candidate
+- Clear published telemetry values on read failures, preventing stale measurements from remaining visible while disconnected.
+- Updated D-Bus process version to 0.1.5.
+- Retains v0.1.4 SetupHelper packaging and app-local pip dependency bootstrap.
+- Static source review only; no on-device installation, service, BLE/UART or charger-independence tests performed.
+
 ## v0.1.4 — 2026-11-26 test candidate
 - Replaced the custom boot helper, `/data/rc.local` hook and manual service overlay creation with the SetupHelper standard action/service-directory workflow.
 - SetupHelper-managed service and logger templates are packaged under `services/jk-bms-monitor`.
